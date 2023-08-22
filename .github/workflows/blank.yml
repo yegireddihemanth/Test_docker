@@ -1,4 +1,4 @@
-name: Build Docker Image
+name: Build and Push Docker Image
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main  # Replace with your default branch name
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,8 @@ jobs:
     - name: Build Docker image
       run: |
         docker buildx create --use
-        docker buildx build --tag hemanthad23/hemanthad23/portfolio --push .
+        docker buildx build --tag hemanthad23/portfolio:latest --push .
 
     env:
-      DOCKER_PASSWORD: ${{ secrets.auto_build_git_commit }}  # Set this secret in your repository settings
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  # Set this secret in your repository settings
+      DOCKER_USERNAME: hemanthad23  # Your Docker Hub username
