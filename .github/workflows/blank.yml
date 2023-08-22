@@ -1,0 +1,25 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Replace with your default branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build Docker image
+      run: |
+        docker buildx create --use
+        docker buildx build --tag hemanthad23/portfolio:latest --push .
+
+    env:
+      DOCKER_PASSWORD: ${{ secrets.auto_build_git_commit }}  # Set this secret in your repository settings
